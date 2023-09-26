@@ -53,6 +53,24 @@ class UrlController extends Controller
         return redirect()->route('urls.index')->with('success', 'Url deleted successfully.');
     }
 
+    public function shortenLink($shortener_url)
+    {
+         $findUrl = Url::where('short_url', $shortener_url)->first();
+
+        if (!$findUrl) {
+            abort(404);
+        }
+
+        if (auth()->check() && auth()->id() != $findUrl->user_id) {
+            $findUrl->increment('clicks');
+        } else {
+            $findUrl->increment('clicks');
+        }
+
+        return redirect($findUrl->long_url);
+
+    }
+
 
 
 

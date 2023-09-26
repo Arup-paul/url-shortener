@@ -31,13 +31,16 @@
                         </thead>
                         <tbody class="bg-white">
                         @if(isset($urls))
-                            @foreach($urls as $key => $url)
+                            @forelse($urls as $key => $url)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
                                          {{$key+1}}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
-                                       {{$url->short_url}}
+
+                                        <a class="underline" href="{{ route('url.shortener', $url->short_url) }}" target="_blank">
+                                            {{  $url->short_url }}
+                                        </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
                                         {{$url->long_url}}
@@ -55,7 +58,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                          @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No data found</td>
+                                </tr>
+                          @endforelse
                         @endif
                         <!-- More table rows here -->
                         </tbody>
